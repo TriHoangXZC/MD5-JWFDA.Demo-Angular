@@ -28,33 +28,30 @@ export class ProductListComponent implements OnInit {
     },
   ];
 
-  isShowCreatedForm = false;
+  constructor() {
+  }
 
-  isShowEditedForm = false;
-
-  isShowDeletedForm = false;
+  ngOnInit() {
+  }
 
   currentProduct: Product = {};
+
+  isShowCreatedForm = false;
 
   changeStateCreateForm() {
     this.isShowCreatedForm = !this.isShowCreatedForm;
   }
 
+  createProduct(product) {
+    this.products.push(product);
+    this.isShowCreatedForm = !this.isShowCreatedForm;
+  }
+
+  isShowEditedForm = false;
 
   changeStateEditForm(product) {
     this.isShowEditedForm = !this.isShowEditedForm;
     this.currentProduct = product;
-  }
-
-  changeStateDeleteForm(product) {
-    this.isShowDeletedForm = !this.isShowDeletedForm;
-    this.currentProduct = product;
-  }
-
-  constructor() {
-  }
-
-  ngOnInit() {
   }
 
   editProduct(product) {
@@ -69,9 +66,11 @@ export class ProductListComponent implements OnInit {
     this.isShowEditedForm = !this.isShowEditedForm;
   }
 
-  createProduct(product) {
-    this.products.push(product);
-    this.isShowCreatedForm = !this.isShowCreatedForm;
+  isShowDeletedForm = false;
+
+  changeStateDeleteForm(product) {
+    this.isShowDeletedForm = !this.isShowDeletedForm;
+    this.currentProduct = product;
   }
 
   deleteProduct(product) {
