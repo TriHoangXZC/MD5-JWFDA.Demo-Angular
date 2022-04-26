@@ -1,0 +1,34 @@
+
+<h1>Product list</h1>
+<table class="table">
+  <thead class="table-dark">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th colspan="2">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products">
+    <td>{{product.id}}</td>
+    <td>{{product.name}}</td>
+    <td>{{product.price}}</td>
+    <td>{{product.description}}</td>
+    <td>
+      <button (click)="changeStateEditForm(product)">Edit</button>
+    </td>
+    <td>
+      <button (click)="changeStateDeleteForm(product)">Delete</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<button (click)="changeStateCreateForm()">Show create form</button>
+
+<app-product-create *ngIf="isShowCreatedForm" (newProduct)="createProduct($event)"></app-product-create>
+<app-product-edit *ngIf="isShowEditedForm" [product]="currentProduct"
+                  (newProduct)="editProduct($event)"></app-product-edit>
+<app-product-delete *ngIf="isShowDeletedForm" [product]="currentProduct"
+                    (newProduct)="deleteProduct($event)"></app-product-delete>
