@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { ProductCreateComponent } from './product/product-list/product-create/product-create.component';
-import {FormsModule} from '@angular/forms';
 import { ProductEditComponent } from './product/product-list/product-edit/product-edit.component';
 import { ProductDeleteComponent } from './product/product-list/product-delete/product-delete.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,11 +17,11 @@ import { ProductDeleteComponent } from './product/product-list/product-delete/pr
     ProductEditComponent,
     ProductDeleteComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -18,7 +18,9 @@ export class ProductCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  createProduct() {
-    this.newProduct.emit(this.product);
+  createProduct(productForm) {
+    if (productForm.valid) {
+      this.newProduct.emit(productForm.value);
+    }
   }
 }
