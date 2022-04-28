@@ -1,5 +1,5 @@
-
 <h1>Product list</h1>
+<a routerLink="/products/create">Create product</a>
 <table class="table">
   <thead class="table-dark">
   <tr>
@@ -17,18 +17,12 @@
     <td>{{product.price}}</td>
     <td>{{product.description}}</td>
     <td>
-      <button (click)="changeStateEditForm(product)">Edit</button>
+      <button routerLink="/products/edit/{{product.id}}">Edit</button>
     </td>
     <td>
-      <button (click)="changeStateDeleteForm(product)">Delete</button>
+      <button routerLink="/products/delete/{{product.id}}">Delete</button>
     </td>
   </tr>
   </tbody>
 </table>
-<button (click)="changeStateCreateForm()">Show create form</button>
 
-<app-product-create *ngIf="isShowCreatedForm" (newProduct)="createProduct($event)"></app-product-create>
-<app-product-edit *ngIf="isShowEditedForm" [product]="currentProduct"
-                  (newProduct)="editProduct($event)"></app-product-edit>
-<app-product-delete *ngIf="isShowDeletedForm" [product]="currentProduct"
-                    (newProduct)="deleteProduct($event)"></app-product-delete>
