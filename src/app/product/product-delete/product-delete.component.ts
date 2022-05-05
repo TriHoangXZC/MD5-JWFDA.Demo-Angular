@@ -1,8 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from '../../model/product';
-import {ProductService} from '../../service/product.service';
+import {ProductService} from '../../service/product/product.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {NotificationService} from '../../service/notification/notification.service';
+import {Category} from '../../model/category';
+import {CategoryService} from '../../service/category/category.service';
+
+declare var $: any;
+declare var Swal: any;
 
 @Component({
   selector: 'app-product-delete',
@@ -12,16 +18,21 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class ProductDeleteComponent implements OnInit {
   product: Product = {};
 
+  categories: Category[] = [];
+
   productForm: FormGroup = new FormGroup({
-    id: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(25)]),
-    price: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    id: new FormControl(''),
+    name: new FormControl(''),
+    price: new FormControl(''),
+    category: new FormControl(null),
+    description: new FormControl('')
   });
 
   constructor(private productService: ProductService,
               private activatedRoute: ActivatedRoute,
-              private router: Router ) {
+              private router: Router,
+              private notificationService: NotificationService,
+              private categoryService: CategoryService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       const id = +paramMap.get('id');
       this.getProductById(id);
@@ -40,8 +51,16 @@ export class ProductDeleteComponent implements OnInit {
     return this.productForm.get('price');
   }
 
+  get categoryControl() {
+    return this.productForm.get('category');
+  }
+
   get descriptionControl() {
     return this.productForm.get('description');
+  }
+
+  getAllCategories() {
+    this.categoryService.getAllCategories().subscribe(listCategory => this.categories = listCategory);
   }
 
   getProductById(id) {
@@ -50,6 +69,7 @@ export class ProductDeleteComponent implements OnInit {
       this.idControl.setValue(this.product.id);
       this.nameControl.setValue(this.product.name);
       this.priceControl.setValue(this.product.price);
+      this.categoryControl.setValue(this.product.category);
       this.descriptionControl.setValue(this.product.description);
     });
   }
@@ -59,11 +79,10 @@ export class ProductDeleteComponent implements OnInit {
 
   deleteProduct() {
     this.productService.deleteProduct(this.product.id).subscribe(() => {
-      console.log("Delete success");
+      this.notificationService.showMessage('success', 'Delete success');
+      this.router.navigateByUrl("/products");
     }, error => {
-      console.log("Delete fail");
+      this.notificationService.showMessage('error', 'Delete fail')
     });
-    this.router.navigateByUrl("/products")
   }
-
 }

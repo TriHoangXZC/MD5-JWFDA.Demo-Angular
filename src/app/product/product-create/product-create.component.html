@@ -1,30 +1,122 @@
-<a routerLink="/products">Back to list product</a>
-<h1>Form create product</h1>
-<form #productForm="ngForm" (ngSubmit)="createProduct(productForm)">
-<!--  <div class="mb-3">-->
-<!--    <label for="id" class="form-label">Id:</label>-->
-<!--    <input type="number" id="id" name="id" #id="ngModel" required [(ngModel)]="product.id" class="form-control">-->
-<!--    <div [hidden]="id.valid || !id.touched">Id is required></div>-->
-<!--  </div>-->
-  <div class="mb-3">
-    <label for="name" class="form-label">Name:</label>
-    <input type="text" id="name" name="name" #name="ngModel" required minlength="6" maxlength="25" [(ngModel)]="product.name" class="form-control">
-    <div [hidden]="name.valid || !name.touched">
-      <div *ngIf="name.errors?.required">Name is required</div>
-      <div *ngIf="name.errors?.minlength">Name minlength is 6</div>
-      <div *ngIf="name.errors?.maxlength">Name maxlength is 25</div>
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item active">Create product Form</li>
+        </ol>
+      </div>
     </div>
-  </div>
-  <div class="mb-3">
-    <label for="price" class="form-label">Price:</label>
-    <input type="text" id="price" name="price" #price="ngModel" required [(ngModel)]="product.price" class="form-control">
-    <div [hidden]="price.valid || !price.touched">Price is required</div>
-  </div>
-  <div class="mb-3">
-    <label for="description" class="form-label">Description:</label>
-    <input type="text" id="description" name="description" #description="ngModel" required [(ngModel)]="product.description" class="form-control">
-    <div [hidden]="description.valid || !description.touched">Description is required</div>
-  </div>
-  <button class="btn btn-primary">Submit</button>
-</form>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!--Reactive Form-->
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Create product Form</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form [formGroup]="productForm" (ngSubmit)="createProduct()">
+            <div class="card-body">
+              <div class="">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter name">
+                <div [hidden]="formGroupControl.name.valid || !formGroupControl.name.touched">
+                  <div *ngIf="formGroupControl.name.errors?.required">Name is required</div>
+                  <div *ngIf="formGroupControl.name.errors?.minlength">Name minlength is 6</div>
+                  <div *ngIf="formGroupControl.name.errors?.maxlength">Name maxlength is 25</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="price" class="form-label">Price:</label>
+                <input type="text" id="price" formControlName="price" class="form-control" placeholder="Enter price">
+                <div [hidden]="formGroupControl.price.valid || !formGroupControl.price.touched">Price is required</div>
+              </div>
+              <div class="form-group">
+                <label for="category" class="form-label">Category:</label>
+                <select id="category" class="form-control" formControlName="category">
+                  <option disabled [ngValue]="null" >List Category </option>
+                  <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="description" class="form-label">Description:</label>
+                <input type="text" id="description" formControlName="description" class="form-control" placeholder="Enter description">
+                <div [hidden]="formGroupControl.description.valid || !formGroupControl.description.touched">Description is required</div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+
+<!--Template From-->
+<!-- Main content-->
+<!--<section class="content">-->
+<!--  <div class="container-fluid">-->
+<!--    <div class="row">-->
+<!--      &lt;!&ndash; left column &ndash;&gt;-->
+<!--      <div class="col-md-12">-->
+<!--        &lt;!&ndash; general form elements &ndash;&gt;-->
+<!--        <div class="card card-primary">-->
+<!--          <div class="card-header">-->
+<!--            <h3 class="card-title">Create product Form</h3>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; /.card-header &ndash;&gt;-->
+<!--          &lt;!&ndash; form start &ndash;&gt;-->
+<!--          <form #productForm="ngForm" (ngSubmit)="createProduct(productForm)">-->
+<!--            <div class="card-body">-->
+<!--              <div class="">-->
+<!--                <label for="name">Name</label>-->
+<!--                <input type="text" class="form-control" id="name" name="name" #name="ngModel" required minlength="6" maxlength="25" [(ngModel)]="product.name" placeholder="Enter name">-->
+<!--                <div [hidden]="name.valid || !name.touched">-->
+<!--                  <div *ngIf="name.errors?.required">Name is required</div>-->
+<!--                  <div *ngIf="name.errors?.minlength">Name minlength is 6</div>-->
+<!--                  <div *ngIf="name.errors?.maxlength">Name maxlength is 25</div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="form-group">-->
+<!--                <label for="price" class="form-label">Price:</label>-->
+<!--                <input type="text" id="price" name="price" #price="ngModel" required [(ngModel)]="product.price" class="form-control" placeholder="Enter price">-->
+<!--                <div [hidden]="price.valid || !price.touched">Price is required</div>-->
+<!--              </div>-->
+<!--              <div class="form-group">-->
+<!--                <label for="description" class="form-label">Description:</label>-->
+<!--                <input type="text" id="description" name="description" #description="ngModel" required [(ngModel)]="product.description" class="form-control" placeholder="Enter description">-->
+<!--                <div [hidden]="description.valid || !description.touched">Description is required</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; /.card-body &ndash;&gt;-->
+<!--            <div class="card-footer">-->
+<!--              <button type="submit" class="btn btn-primary">Create</button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; /.card &ndash;&gt;-->
+<!--      </div>-->
+<!--      &lt;!&ndash;/.col (left) &ndash;&gt;-->
+<!--    </div>-->
+<!--    &lt;!&ndash; /.row &ndash;&gt;-->
+<!--  </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--</section>-->
 
