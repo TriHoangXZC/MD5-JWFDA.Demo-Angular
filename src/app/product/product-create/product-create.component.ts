@@ -80,11 +80,7 @@ export class ProductCreateComponent implements OnInit {
   // }
 
   getAllCategories() {
-    this.categoryService.getAllCategories().subscribe((categoriesFromBE) => {
-      this.categories = categoriesFromBE;
-    }, error => {
-      this.notificationService.showMessage('error', 'Get list categories fail!');
-    });
+    this.categoryService.getAllCategories().subscribe(listCategory => this.categories = listCategory);
   }
 
 //  Reactive Form

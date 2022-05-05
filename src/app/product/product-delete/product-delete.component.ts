@@ -69,12 +69,13 @@ export class ProductDeleteComponent implements OnInit {
       this.idControl.setValue(this.product.id);
       this.nameControl.setValue(this.product.name);
       this.priceControl.setValue(this.product.price);
-      this.categoryControl.setValue(this.product.category);
+      this.categoryControl.setValue(this.product.category.id);
       this.descriptionControl.setValue(this.product.description);
     });
   }
 
   ngOnInit() {
+    this.getAllCategories();
   }
 
   deleteProduct() {
