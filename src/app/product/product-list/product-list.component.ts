@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Product} from '../../model/product';
+import {ProductService} from '../../service/product/product.service';
+import {NotificationService} from '../../service/notification/notification.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-product-list',
@@ -7,81 +11,42 @@ import {Product} from '../../model/product';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'Iphone 13',
-      price: 1500,
-      description: 'New'
-    },
-    {
-      id: 2,
-      name: 'Iphone 12',
-      price: 1300,
-      description: 'New'
-    },
-    {
-      id: 3,
-      name: 'Iphone 11',
-      price: 1100,
-      description: 'New'
-    },
-  ];
+  products: Product[] = [];
 
-  constructor() {
+  constructor(private productService: ProductService,
+              private notificationService: NotificationService) {
   }
+
+  getAllProduct() {
+    this.productService.getAll().subscribe((productsFromBE) => {
+      this.products = productsFromBE;
+      $(function() {
+        $('#product-list').DataTable({
+          'paging': true,
+          'lengthChange': false,
+          'searching': true,
+          'ordering': true,
+          'info': true,
+          'autoWidth': false,
+          'responsive': true,
+        });
+      });
+    }, error => {
+      this.notificationService.showMessage('error', 'Get list fail!');
+    });
+  }
+
+  //Nếu có phân trang
+  // getAllProduct() {
+  //   this.productService.getAll().subscribe((productsFromBE: any) =>  {
+  //     this.products = productsFromBE.content;
+  //   }, error => {
+  //     console.log("Get list product fail");
+  //   });
+  // }
 
   ngOnInit() {
+    this.getAllProduct();
   }
 
-  currentProduct: Product = {};
-
-  isShowCreatedForm = false;
-
-  changeStateCreateForm() {
-    this.isShowCreatedForm = !this.isShowCreatedForm;
-  }
-
-  createProduct(product) {
-    this.products.push(product);
-    this.isShowCreatedForm = !this.isShowCreatedForm;
-  }
-
-  isShowEditedForm = false;
-
-  changeStateEditForm(product) {
-    this.isShowEditedForm = !this.isShowEditedForm;
-    this.currentProduct = product;
-  }
-
-  editProduct(product) {
-    let index = -1;
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id == product.id) {
-        index = i;
-        break;
-      }
-    }
-    this.products[index] = product;
-    this.isShowEditedForm = !this.isShowEditedForm;
-  }
-
-  isShowDeletedForm = false;
-
-  changeStateDeleteForm(product) {
-    this.isShowDeletedForm = !this.isShowDeletedForm;
-    this.currentProduct = product;
-  }
-
-  deleteProduct(product) {
-    let index = -1;
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id == product.id) {
-        index = i;
-        break;
-      }
-    }
-    this.products.splice(index, 1);
-    this.isShowDeletedForm = !this.isShowDeletedForm;
-  }
 }

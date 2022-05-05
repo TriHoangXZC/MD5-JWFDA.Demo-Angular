@@ -4,23 +4,26 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
-import { ProductCreateComponent } from './product/product-list/product-create/product-create.component';
-import {FormsModule} from '@angular/forms';
-import { ProductEditComponent } from './product/product-list/product-edit/product-edit.component';
-import { ProductDeleteComponent } from './product/product-list/product-delete/product-delete.component';
+import { ProductCreateComponent } from './product/product-create/product-create.component';
+import { ProductEditComponent } from './product/product-edit/product-edit.component';
+import { ProductDeleteComponent } from './product/product-delete/product-delete.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    ProductCreateComponent,
-    ProductEditComponent,
-    ProductDeleteComponent
+    NavbarComponent,
+    SidebarComponent
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule
     ],
   providers: [],
   bootstrap: [AppComponent]
